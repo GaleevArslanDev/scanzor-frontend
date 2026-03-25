@@ -15,8 +15,7 @@ function App() {
         focalLength: 35,
         mountHeight: 5,
         tiltAngle: 90,
-        sensorWidth: 36,
-        imageWidth: 1920
+        sensorWidth: 36
     });
 
     const {
@@ -129,7 +128,7 @@ function App() {
 
                 {result && (
                     <div className="results-section">
-                        <ResultCard result={result} />
+                        <ResultCard result={result} imageDimensions={imageDimensions} />
                     </div>
                 )}
             </main>

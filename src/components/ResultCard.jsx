@@ -1,7 +1,7 @@
 ﻿import React from 'react';
 import './ResultCard.css';
 
-const ResultCard = ({ result }) => {
+const ResultCard = ({ result, imageDimensions }) => {
     if (!result) return null;
 
     const formatArea = (area) => {
@@ -48,6 +48,18 @@ const ResultCard = ({ result }) => {
                 </div>
             </div>
 
+            {imageDimensions && (
+                <div className="result-metadata">
+                    <details>
+                        <summary>Image Information</summary>
+                        <div className="metadata-content">
+                            <p>Image Dimensions: {imageDimensions.width} x {imageDimensions.height} px</p>
+                            <p>Total Pixels: {(imageDimensions.width * imageDimensions.height).toLocaleString()} px</p>
+                        </div>
+                    </details>
+                </div>
+            )}
+
             {result.calibration_used && (
                 <div className="result-metadata">
                     <details>
@@ -58,17 +70,6 @@ const ResultCard = ({ result }) => {
                             <p>Tilt Angle: {result.calibration_used.tiltAngle}°</p>
                             <p>Sensor Width: {result.calibration_used.sensorWidth} mm</p>
                             <p>Image Width: {result.calibration_used.imageWidth} px</p>
-                        </div>
-                    </details>
-                </div>
-            )}
-
-            {result.image_dimensions && (
-                <div className="result-metadata">
-                    <details>
-                        <summary>Image Details</summary>
-                        <div className="metadata-content">
-                            <p>Dimensions: {result.image_dimensions.width} x {result.image_dimensions.height} px</p>
                         </div>
                     </details>
                 </div>

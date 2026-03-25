@@ -9,6 +9,7 @@ export const useFileUpload = () => {
     const [progress, setProgress] = useState(0);
     const [result, setResult] = useState(null);
     const [error, setError] = useState(null);
+    const [imageDimensions, setImageDimensions] = useState(null);
 
     const validateFile = useCallback((file) => {
         if (!file) {
@@ -28,6 +29,22 @@ export const useFileUpload = () => {
         return isImage;
     }, []);
 
+    // Функция для получения размеров изображения
+    const getImageDimensions = useCallback((file) => {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => {
+                resolve({
+                    width: img.width,
+                    height: img.height
+                });
+                URL.revokeObjectURL(img.src);
+            };
+            img.onerror = reject;
+            img.src = URL.createObjectURL(file);
+        });
+    }, []);
+
     const uploadFile = useCallback(async (file, calibration, taskType = 'auto') => {
         try {
             setError(null);
@@ -36,9 +53,19 @@ export const useFileUpload = () => {
 
             const isImage = validateFile(file);
 
+            // Получаем реальные размеры изображения
+            const dimensions = await getImageDimensions(file);
+            setImageDimensions(dimensions);
+
+            // Обновляем калибровку с реальной шириной изображения
+            const updatedCalibration = {
+                ...calibration,
+                imageWidth: dimensions.width  // ← автоматически подставляем реальную ширину
+            };
+
             let response;
             if (isImage) {
-                response = await analyzeImage(file, calibration, taskType);
+                response = await analyzeImage(file, updatedCalibration, taskType);
                 setFileType('image');
             }
 
@@ -51,7 +78,7 @@ export const useFileUpload = () => {
         } finally {
             setIsLoading(false);
         }
-    }, [validateFile]);
+    }, [validateFile, getImageDimensions]);
 
     const reset = useCallback(() => {
         setFile(null);
@@ -60,6 +87,7 @@ export const useFileUpload = () => {
         setProgress(0);
         setResult(null);
         setError(null);
+        setImageDimensions(null);
     }, []);
 
     return {
@@ -69,6 +97,7 @@ export const useFileUpload = () => {
         progress,
         result,
         error,
+        imageDimensions,
         uploadFile,
         reset,
         setFile

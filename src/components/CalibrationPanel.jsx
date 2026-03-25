@@ -6,8 +6,7 @@ const CalibrationPanel = ({ onCalibrationChange, initialCalibration }) => {
         focalLength: initialCalibration?.focalLength || 35,
         mountHeight: initialCalibration?.mountHeight || 5,
         tiltAngle: initialCalibration?.tiltAngle || 90,
-        sensorWidth: initialCalibration?.sensorWidth || 36,
-        imageWidth: initialCalibration?.imageWidth || 1920
+        sensorWidth: initialCalibration?.sensorWidth || 36
     });
 
     const handleChange = (field, value) => {

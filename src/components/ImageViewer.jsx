@@ -33,12 +33,6 @@ const ImageViewer = ({ originalUrl, processedUrl, overlayUrl, maskUrl, fileType 
                 >
                     Mask Only
                 </button>
-                <button
-                    className={`tab ${activeTab === 'processed' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('processed')}
-                >
-                    Segmented Result
-                </button>
             </div>
 
             <div className="viewer-content">
@@ -58,10 +52,6 @@ const ImageViewer = ({ originalUrl, processedUrl, overlayUrl, maskUrl, fileType 
                     <img src={processedUrl} alt="Mask" className="media-preview" />
                 )}
 
-                {activeTab === 'processed' && processedUrl && (
-                    <img src={processedUrl} alt="Processed" className="media-preview" />
-                )}
-
                 {activeTab === 'overlay' && !overlayUrl && (
                     <div className="no-processed">
                         <p>Overlay image not available yet</p>
@@ -71,12 +61,6 @@ const ImageViewer = ({ originalUrl, processedUrl, overlayUrl, maskUrl, fileType 
                 {activeTab === 'mask' && !processedUrl && (
                     <div className="no-processed">
                         <p>Mask not available yet</p>
-                    </div>
-                )}
-
-                {activeTab === 'processed' && !processedUrl && (
-                    <div className="no-processed">
-                        <p>Processed image not available yet</p>
                     </div>
                 )}
             </div>
