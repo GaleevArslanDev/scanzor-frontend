@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/scanzor-frontend/static/css/main.92a6403a.css",
+    "main.js": "/scanzor-frontend/static/js/main.86423260.js",
+    "index.html": "/scanzor-frontend/index.html",
+    "main.92a6403a.css.map": "/scanzor-frontend/static/css/main.92a6403a.css.map",
+    "main.86423260.js.map": "/scanzor-frontend/static/js/main.86423260.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.92a6403a.css",
+    "static/js/main.86423260.js"
+  ]
+}
