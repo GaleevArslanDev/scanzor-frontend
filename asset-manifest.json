@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/scanzor-frontend/static/css/main.33c9a272.css",
-    "main.js": "/scanzor-frontend/static/js/main.de820745.js",
+    "main.js": "/scanzor-frontend/static/js/main.2a9e82a9.js",
     "index.html": "/scanzor-frontend/index.html",
     "main.33c9a272.css.map": "/scanzor-frontend/static/css/main.33c9a272.css.map",
-    "main.de820745.js.map": "/scanzor-frontend/static/js/main.de820745.js.map"
+    "main.2a9e82a9.js.map": "/scanzor-frontend/static/js/main.2a9e82a9.js.map"
   },
   "entrypoints": [
     "static/css/main.33c9a272.css",
-    "static/js/main.de820745.js"
+    "static/js/main.2a9e82a9.js"
   ]
 }
