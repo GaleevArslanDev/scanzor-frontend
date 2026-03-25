@@ -23,6 +23,7 @@ function App() {
         progress,
         result,
         error,
+        imageDimensions,
         uploadFile,
         reset
     } = useFileUpload();
