@@ -29,7 +29,7 @@ const FileUploader = ({ onFileSelect, isDisabled }) => {
                 <div className="upload-icon">📸</div>
                 <h3>Upload Photo</h3>
                 <p>Drag & drop or click to select</p>
-                <small>Supported formats: JPG, PNG, MP4 (Max 500MB)</small>
+                <small>Supported formats: JPG, PNG (Max 10MB)</small>
             </div>
         </div>
     );

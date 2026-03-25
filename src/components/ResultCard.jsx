@@ -12,7 +12,14 @@ const ResultCard = ({ result }) => {
     };
 
     const getWorkTypeLabel = (type) => {
-        return type === 'snow' ? 'Snow Removal' : 'Lawn Mowing';
+        switch(type) {
+            case 'snow':
+                return '❄️ Snow Removal';
+            case 'grass':
+                return '🌿 Lawn Mowing';
+            default:
+                return '🤖 Auto Detected';
+        }
     };
 
     return (
@@ -21,45 +28,47 @@ const ResultCard = ({ result }) => {
 
             <div className="result-main">
                 <div className="result-area">
-                    <div className="area-value">{formatArea(result.processedArea)}</div>
-                    <div className="area-label">Processed Area</div>
+                    <div className="area-value">{formatArea(result.total_area_sqm)}</div>
+                    <div className="area-label">Total Processed Area</div>
                 </div>
 
                 <div className="result-stats">
                     <div className="stat">
-                        <span className="stat-label">Work Type:</span>
-                        <span className="stat-value">{getWorkTypeLabel(result.workType)}</span>
+                        <span className="stat-label">Task Type:</span>
+                        <span className="stat-value">{getWorkTypeLabel(result.task_type)}</span>
                     </div>
                     <div className="stat">
-                        <span className="stat-label">Confidence:</span>
-                        <span className="stat-value">{(result.confidence * 100).toFixed(1)}%</span>
+                        <span className="stat-label">Processed:</span>
+                        <span className="stat-value">{result.processed_percentage?.toFixed(1)}%</span>
                     </div>
                     <div className="stat">
-                        <span className="stat-label">Pixel Count:</span>
-                        <span className="stat-value">{result.processedPixels.toLocaleString()} px</span>
-                    </div>
-                    <div className="stat">
-                        <span className="stat-label">Pixel to m² Ratio:</span>
-                        <span className="stat-value">{result.pixelToMeterRatio.toFixed(2)} px/m²</span>
+                        <span className="stat-label">Pixels Processed:</span>
+                        <span className="stat-value">{result.processed_pixels?.toLocaleString()} / {result.total_pixels?.toLocaleString()}</span>
                     </div>
                 </div>
             </div>
 
-            {result.estimatedDuration && (
-                <div className="result-duration">
-                    <span>Estimated Duration:</span>
-                    <strong>{result.estimatedDuration.toFixed(1)} hours</strong>
+            {result.calibration_used && (
+                <div className="result-metadata">
+                    <details>
+                        <summary>Calibration Details</summary>
+                        <div className="metadata-content">
+                            <p>Focal Length: {result.calibration_used.focalLength} mm</p>
+                            <p>Mount Height: {result.calibration_used.mountHeight} m</p>
+                            <p>Tilt Angle: {result.calibration_used.tiltAngle}°</p>
+                            <p>Sensor Width: {result.calibration_used.sensorWidth} mm</p>
+                            <p>Image Width: {result.calibration_used.imageWidth} px</p>
+                        </div>
+                    </details>
                 </div>
             )}
 
-            {result.metadata && (
+            {result.image_dimensions && (
                 <div className="result-metadata">
                     <details>
-                        <summary>Processing Details</summary>
+                        <summary>Image Details</summary>
                         <div className="metadata-content">
-                            <p>Processing Time: {result.metadata.processingTime}ms</p>
-                            <p>Segmentation Model: {result.metadata.modelVersion}</p>
-                            <p>Calibration Method: {result.metadata.calibrationMethod}</p>
+                            <p>Dimensions: {result.image_dimensions.width} x {result.image_dimensions.height} px</p>
                         </div>
                     </details>
                 </div>

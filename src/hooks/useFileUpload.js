@@ -28,7 +28,7 @@ export const useFileUpload = () => {
         return isImage;
     }, []);
 
-    const uploadFile = useCallback(async (file, calibration) => {
+    const uploadFile = useCallback(async (file, calibration, taskType = 'auto') => {
         try {
             setError(null);
             setProgress(0);
@@ -38,7 +38,7 @@ export const useFileUpload = () => {
 
             let response;
             if (isImage) {
-                response = await analyzeImage(file, calibration);
+                response = await analyzeImage(file, calibration, taskType);
                 setFileType('image');
             }
 

@@ -1,7 +1,7 @@
 ﻿import React, { useState } from 'react';
 import './ImageViewer.css';
 
-const ImageViewer = ({ originalUrl, processedUrl, fileType }) => {
+const ImageViewer = ({ originalUrl, processedUrl, overlayUrl, maskUrl, fileType }) => {
     const [activeTab, setActiveTab] = useState('original');
 
     if (!originalUrl && !processedUrl) {
@@ -22,6 +22,18 @@ const ImageViewer = ({ originalUrl, processedUrl, fileType }) => {
                     Original
                 </button>
                 <button
+                    className={`tab ${activeTab === 'overlay' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('overlay')}
+                >
+                    Overlay (Mask on Image)
+                </button>
+                <button
+                    className={`tab ${activeTab === 'mask' ? 'active' : ''}`}
+                    onClick={() => setActiveTab('mask')}
+                >
+                    Mask Only
+                </button>
+                <button
                     className={`tab ${activeTab === 'processed' ? 'active' : ''}`}
                     onClick={() => setActiveTab('processed')}
                 >
@@ -38,8 +50,28 @@ const ImageViewer = ({ originalUrl, processedUrl, fileType }) => {
                     )
                 )}
 
+                {activeTab === 'overlay' && overlayUrl && (
+                    <img src={overlayUrl} alt="Overlay" className="media-preview" />
+                )}
+
+                {activeTab === 'mask' && processedUrl && (
+                    <img src={processedUrl} alt="Mask" className="media-preview" />
+                )}
+
                 {activeTab === 'processed' && processedUrl && (
                     <img src={processedUrl} alt="Processed" className="media-preview" />
+                )}
+
+                {activeTab === 'overlay' && !overlayUrl && (
+                    <div className="no-processed">
+                        <p>Overlay image not available yet</p>
+                    </div>
+                )}
+
+                {activeTab === 'mask' && !processedUrl && (
+                    <div className="no-processed">
+                        <p>Mask not available yet</p>
+                    </div>
                 )}
 
                 {activeTab === 'processed' && !processedUrl && (

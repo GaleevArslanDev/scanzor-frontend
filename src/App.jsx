@@ -4,11 +4,13 @@ import CalibrationPanel from './components/CalibrationPanel';
 import ImageViewer from './components/ImageViewer';
 import ResultCard from './components/ResultCard';
 import LoadingOverlay from './components/LoadingOverlay';
+import TaskTypeSelector from './components/TaskTypeSelector';
 import { useFileUpload } from './hooks/useFileUpload';
 import './App.css';
 
 function App() {
     const [selectedFile, setSelectedFile] = useState(null);
+    const [taskType, setTaskType] = useState('auto');
     const [calibration, setCalibration] = useState({
         focalLength: 35,
         mountHeight: 5,
@@ -28,7 +30,6 @@ function App() {
 
     const handleFileSelect = useCallback((file) => {
         setSelectedFile(file);
-        // Clear previous results when new file is selected
         if (result) {
             reset();
         }
@@ -41,23 +42,29 @@ function App() {
         }
 
         try {
-            await uploadFile(selectedFile, calibration);
+            await uploadFile(selectedFile, calibration, taskType);
         } catch (err) {
             console.error('Analysis failed:', err);
         }
-    }, [selectedFile, calibration, uploadFile]);
+    }, [selectedFile, calibration, taskType, uploadFile]);
 
     const handleCalibrationChange = useCallback((newCalibration) => {
         setCalibration(newCalibration);
     }, []);
 
+    const handleTaskTypeChange = useCallback((newTaskType) => {
+        setTaskType(newTaskType);
+    }, []);
+
     const handleReset = useCallback(() => {
         reset();
         setSelectedFile(null);
+        setTaskType('auto');
     }, [reset]);
 
-    // Create object URLs for preview
     const originalUrl = selectedFile ? URL.createObjectURL(selectedFile) : null;
+    const maskUrl = result?.mask || null;
+    const overlayUrl = result?.overlayImageUrl || null;
     const processedUrl = result?.processedImageUrl || null;
 
     return (
@@ -95,6 +102,12 @@ function App() {
                     )}
                 </div>
 
+                <TaskTypeSelector
+                    taskType={taskType}
+                    onTaskTypeChange={handleTaskTypeChange}
+                    isDisabled={isLoading}
+                />
+
                 <div className="calibration-section">
                     <CalibrationPanel
                         onCalibrationChange={handleCalibrationChange}
@@ -107,6 +120,8 @@ function App() {
                         <ImageViewer
                             originalUrl={originalUrl}
                             processedUrl={processedUrl}
+                            overlayUrl={overlayUrl}
+                            maskUrl={maskUrl}
                             fileType={selectedFile?.type?.startsWith('video/') ? 'video' : 'image'}
                         />
                     </div>
