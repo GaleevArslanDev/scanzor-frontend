@@ -1,0 +1,47 @@
+﻿.calibration-panel {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.calibration-panel h3 {
+    margin: 0 0 20px 0;
+    color: #333;
+}
+
+.calibration-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.param-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.param-group label {
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.param-group input {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s;
+}
+
+.param-group input:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+.param-group small {
+    margin-top: 4px;
+    color: #999;
+    font-size: 12px;
+}
